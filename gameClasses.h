@@ -1,97 +1,67 @@
 #pragma once
-#include "baseClasses.h"
+#include "BaseClasses.h"
+#include <string>
 
-class Warrior : virtual public Npc {
-protected:
-	int strange;
-	string weapons;
+class Warrior : public virtual Npc //наследование с модификатором доступа public
+{
+protected:  //модификатор 0 (приватный - защищенный, доступ к полям, только внутри класса)
+	unsigned short strenght{ 31 };
+	std::string weapons[4] = { "кастет", "дубинка", "клинок", "меч" };
 public:
-	Warrior() {
-		warrior = true;
-		wizard = false;
-		paladin = false;
-		health = 50;
-		damage = 30;
-		strange = 33;
-	}
-	void create() override {
-		cout << endl;
-		cout << "Вы создали война" << endl << "Введите имя персонажа\t";
-		cin >> name;
-		cout << endl;
-		getStats();
-		cout << "Ваша сила - " << strange << endl;
-	}
-	void getWeapons() {
-		cout << "Вы взяли " << weapons << " в руки" << endl;
-	}
-	~Warrior() {
-		if (warrior)
-			cout << "Воин " << name << " пал в сражение" << endl;
-	}
+	Warrior();
+	Warrior(std::string name, unsigned int health, float damage);
+	void GetWeapons();
+	void GetInfo() override;
+	void Create() override;
+	bool operator == (const Warrior& warrior) const;
+	Warrior& operator = (const Npc& npc);
+	bool Save() override;
+	bool Load() override;
+	~Warrior();
 };
 
-class Wizard : virtual public Npc {
-protected:
-	int intellect;
-	string spell;
+class Wizard : public virtual Npc
+{
 public:
-	Wizard() {
-		warrior = false;
-		wizard = true;
-		paladin = false;
-		health = 35;
-		damage = 55;
-		intellect = 40;
-		armor = 20;
-		spell = "Fireball";
-	}
-	void create() override {
-		cout << endl;
-		cout << "Вы создали Волшебник" << endl << "Введите имя персонажа\t";
-		cin >> name;
-		cout << endl;
-		getStats();
-		cout << "Ваш интеллект - " << intellect << endl;
-	}
-	void castSpell() {
-		cout << "Произнесите заклинание\t";
-		cin >> spell;
-		cout << endl;
-		cout << spell << " используется на противнике" << endl;
-		cout << endl;
-	}
-	~Wizard() {
-		if (wizard)
-			cout << "Волшебник " << name << " испускает дух" << endl;
-	}
+	class Spell
+	{
+		protected: 
+			string name{ "заклинание" };
+			unsigned short damage{ 0 };
+			unsigned short price{ 0 };
+			bool isCurse{ false };
+			int timeCast{ 0 };
+		public:
+			Spell(string name = "заклинание", unsigned short damage = 0, unsigned short price = 0, bool isCurse = false, int timeCast = 0);
+			string operator[](unsigned index) const;
+			unsigned short CastSpell();
+	};
+protected:
+	unsigned short intellect = 27;
+	Spell spells[5] = {
+		Spell("огненный шар",20,50,false,3),
+		Spell("волшебные стрелы",10,30,false,1),
+		Spell("ледяной шок",10,20,false),
+		Spell("возгорание",10,25,true,5),
+		Spell("проклятие",5,10,false,10),
+	};
+public:
+	Wizard();
+	Wizard(string name, unsigned int health, float damage);
+	void GetInfo() override;
+	void Create() override;
+	Wizard operator + (const Wizard& wizard) const;
+	bool Save() override;
+	void GetSpellsInfo();
+	~Wizard();
 };
 
-class Paladin : public Wizard, public Warrior {
+class Paladin : public Warrior, public Wizard
+{
 public:
-	Paladin() {
-		warrior = false;
-		wizard = false;
-		paladin = true;
-		health = 40;
-		damage = 40;
-		intellect = 30;
-		armor = 120;
-		strange = 30;
-		spell = "HollyShock";
-	}
+	Paladin();
+	void GetInfo() override;
+	void Create() override;
+	bool Save() override;
 
-	void create() override {
-		cout << endl;
-		cout << "Вы создали Паладина" << endl << "Введите имя персонажа\t";
-		cin >> name;
-		cout << endl;
-		getStats();
-		cout << "Ваш интеллект - " << intellect << endl;
-		cout << "Ваша сила - " << strange << endl;
-	}
-	~Paladin() {
-		if (paladin)
-			cout << name << " отправился к праотцам" << endl;
-	}
 };
