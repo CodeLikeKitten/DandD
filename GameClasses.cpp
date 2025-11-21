@@ -1,5 +1,5 @@
 #pragma once
-#include "GameClasses.h"
+#include "gameClasses.h"
 
 Warrior::Warrior()
 {

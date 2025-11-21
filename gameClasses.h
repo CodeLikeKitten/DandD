@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseClasses.h"
+#include "baseClasses.h"
 #include <string>
 
 class Warrior : public virtual Npc //наследование с модификатором доступа public

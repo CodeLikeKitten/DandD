@@ -1,5 +1,5 @@
 #pragma once
-#include "Evil.h"
+#include "evil.h"
 #include <string>
 
 Evil::Evil(std::string name) {
@@ -16,15 +16,15 @@ Evil::Evil(string name, int health, int damage) : Evil(name, health) {
 
 void Evil::GetInfo() {
 	cout << endl;
-	cout << "на вас напал " << name << endl;
+	cout << "пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " << name << endl;
 	if (health >= 0 && damage < 0) {
-		cout << "Здоровье - " << health << endl;
+		cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - " << health << endl;
 	}
 	if (health < 0 && damage >= 0) {
-		cout << "урон - " << damage << endl;
+		cout << "пїЅпїЅпїЅпїЅ - " << damage << endl;
 	}
 	if (health >= 0 && damage >= 0) {
-		cout << "Здоровье - " << health << endl;
-		cout << "урон - " << damage << endl;
+		cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - " << health << endl;
+		cout << "пїЅпїЅпїЅпїЅ - " << damage << endl;
 	}
 }

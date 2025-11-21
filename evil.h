@@ -1,5 +1,5 @@
 	#pragma once
-	#include "BaseClasses.h"
+	#include "baseClasses.h"
 
 	class Evil : public Npc {
 	public:

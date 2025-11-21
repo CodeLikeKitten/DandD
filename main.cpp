@@ -1,8 +1,8 @@
 #include <iostream>
 #include "windows.h"
-#include "GameClasses.h"
-#include "BaseClasses.h"
-#include "Evil.h"
+#include "gameClasses.h"
+#include "baseClasses.h"
+#include "evil.h"
 #include <fstream> 
 using namespace std;
 
@@ -65,16 +65,22 @@ enum class EnemyType {
     ВАХТЕРША_ЗИНА,
 };
 
-unsigned short TestChoise(unsigned short maxChoise, string text)
+bool testWrongChoice(unsigned short choice, unsigned short maxChoice)
 {
-    unsigned short choise = 1;
-    cin >> choise;
-    while (choise > maxChoise || choise < 1)
+    //представим, что мы делаем более сложную проверку
+    return choice > maxChoice;
+}
+
+unsigned short testChoiceHandle(unsigned short maxChoice, string text)
+{
+    unsigned short choice;
+    cin >> choice;
+    while (testWrongChoice(choice, maxChoice))
     {
         cout << text << endl;
-        cin >> choise;
+        cin >> choice;
     }
-    return choise;
+    return choice;
 };
 
 // Фабрика для создания персонажей
@@ -109,11 +115,11 @@ int main()
     Player* player = new Player();
 
     cout << "Привет, путник\nПрисядь у костра и расскажи о себе\nТы впервые тут?\n\t1 - новый персонаж,\n\t2 - загрузить\n";
-    if (TestChoise(2, "Наверное ты ошибся, повтори снова"))
+    if (testChoiceHandle(2, "Наверное ты ошибся, повтори снова"))
     {
         cout << "Расскажи о своих навыках\n\t1 - Воин\n\t2 - Волшебник\n\t3 - Паладин\n";
         unique_ptr<Npc> character;
-        switch (TestChoise(3, "Такого еще не было в наших краях\nНе мог бы ты повторить"))
+        switch (testChoiceHandle(3, "Такого еще не было в наших краях\nНе мог бы ты повторить"))
         {
             case 1:
                 character = CreateCharacter(CharacterType::WARRIOR);
@@ -143,7 +149,7 @@ int main()
     //процесс игры
 
     cout << "Сделаем остановку тут?\n\t1 - сохранить игру\n\t2 - продолжить\n";
-    if (TestChoise(2, "Нужно четко определиться с решением\nПовтори свой ответ"))
+    if (testChoiceHandle(2, "Нужно четко определиться с решением\nПовтори свой ответ"))
     {
         if (player->Save()) {
             cout << "Игра успешно сохранена!\n";
